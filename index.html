@@ -3,63 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>SkyArena - FREE WORLD</title>
+<title>SkyArena - Mini Militia Style</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#87CEEB;overflow:hidden;font-family:Arial,sans-serif;touch-action:none}
-#game{position:absolute;top:0;left:0;width:100vw;height:100vh;display:block}
-#ui{position:absolute;top:0;left:0;width:100%;pointer-events:none}
-#top{pointer-events:auto;display:flex;justify-content:space-between;padding:10px}
-#logo{background:rgba(0,0,0,0.7);color:#fff;padding:8px 14px;border-radius:20px;font-weight:900;font-size:14px}
-#online{background:rgba(0,200,0,0.8);color:#fff;padding:6px 12px;border-radius:20px;font-size:12px}
-#joystick{position:absolute;bottom:90px;left:30px;width:110px;height:110px;background:rgba(255,255,255,0.25);border-radius:50%;pointer-events:auto;border:2px solid rgba(255,255,255,0.4)}
-#stick{position:absolute;left:50%;top:50%;width:50px;height:50px;background:rgba(255,255,255,0.9);border-radius:50%;transform:translate(-50%,-50%)}
-#actions{position:absolute;bottom:90px;right:20px;display:flex;gap:12px;pointer-events:auto}
-.btn{width:60px;height:60px;background:rgba(255,255,255,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;border:none}
-#chatInputRow{position:absolute;bottom:10px;left:10px;right:10px;display:flex;gap:8px;pointer-events:auto}
-#chatInput{flex:1;padding:12px;border-radius:25px;border:none;background:rgba(255,255,255,0.9)}
-#sendBtn{padding:12px 18px;border-radius:25px;border:none;background:#00c853;color:white;font-weight:bold}
-#login{position:absolute;inset:0;background:linear-gradient(#87CEEB,#4CAF50);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10}
-#login h1{font-size:42px;color:white;text-shadow:0 4px 0 #000;margin-bottom:10px}
-#nameInput{padding:14px 20px;border-radius:30px;border:3px solid black;font-size:18px;text-align:center;width:220px;margin-bottom:15px}
-#playBtn{padding:14px 40px;border-radius:30px;border:3px solid black;background:#FFEB3B;font-size:20px;font-weight:900;box-shadow:0 5px 0 black}
-#status{margin-top:15px;color:white;font-weight:bold;background:rgba(0,0,0,0.5);padding:6px 12px;border-radius:10px}
-#chatBox{position:absolute;bottom:170px;left:10px;right:10px;max-width:400px;background:rgba(0,0,0,0.6);border-radius:10px;padding:8px;pointer-events:auto;max-height:120px;overflow-y:auto;display:none}
+body{background:#7ec850;overflow:hidden;font-family:Arial,sans-serif;touch-action:none}
+#game{position:absolute;top:0;left:0;width:100vw;height:100vh}
+#topbar{position:absolute;top:0;left:0;right:0;height:44px;background:linear-gradient(#333,#111);display:flex;align-items:center;justify-content:space-between;padding:0 10px;z-index:5}
+#logo{color:#fff;font-weight:900;font-size:14px;letter-spacing:1px}
+#online{color:#0f0;font-size:12px;font-weight:bold}
+#healthBar{position:absolute;top:50px;left:10px;width:140px;height:16px;background:#000;border:2px solid #fff;border-radius:8px;overflow:hidden;z-index:5}
+#healthFill{width:100%;height:100%;background:linear-gradient(#0f0,#090)}
+#jetBar{position:absolute;top:50px;right:10px;width:120px;height:14px;background:#000;border:2px solid #fff;border-radius:7px;overflow:hidden;z-index:5}
+#jetFill{width:100%;height:100%;background:linear-gradient(#0ff,#00aaff)}
+#controls{position:absolute;bottom:0;left:0;right:0;height:160px;pointer-events:none;z-index:5}
+#joystick{position:absolute;bottom:20px;left:20px;width:110px;height:110px;background:rgba(255,255,255,0.2);border-radius:50%;pointer-events:auto;border:2px solid rgba(255,255,255,0.5)}
+#stick{position:absolute;left:50%;top:50%;width:48px;height:48px;background:rgba(255,255,255,0.9);border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 2px 5px #000}
+#rightControls{position:absolute;bottom:15px;right:15px;display:flex;flex-direction:column;gap:10px;pointer-events:auto}
+.row{display:flex;gap:12px}
+.btn{width:58px;height:58px;border-radius:50%;border:2px solid #000;background:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 3px 0 #000;font-weight:900;user-select:none}
+.btn:active{transform:translateY(3px);box-shadow:none}
+#shootBtn{background:#ff3b3b;color:#fff}
+#jetBtn{background:#00c8ff;color:#fff}
+#login{position:absolute;inset:0;background:linear-gradient(#5a9bd5,#2e7d32);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20}
+#login h1{font-size:46px;color:#fff;text-shadow:4px 4px 0 #000,-2px -2px 0 #000;transform:skew(-5deg)}
+#login p{color:#ffeb3b;font-weight:900;margin:8px 0 18px 0;text-shadow:2px 2px 0 #000;font-size:18px}
+#nameInput{padding:12px 18px;border-radius:25px;border:3px solid #000;font-size:17px;text-align:center;width:210px;font-weight:bold}
+#playBtn{margin-top:12px;padding:12px 36px;border-radius:25px;border:3px solid #000;background:#ffeb3b;font-size:19px;font-weight:900;box-shadow:0 5px 0 #000}
+#status{margin-top:14px;background:rgba(0,0,0,0.6);color:#fff;padding:5px 12px;border-radius:12px;font-size:13px;font-weight:bold}
+#chatBox{position:absolute;top:76px;left:10px;right:10px;max-width:380px;pointer-events:none;z-index:6}
+.chatMsg{background:rgba(0,0,0,0.6);color:#fff;font-size:12px;padding:3px 8px;border-radius:10px;margin-bottom:3px;display:inline-block}
+#chatInputRow{position:absolute;bottom:170px;left:10px;right:140px;display:flex;gap:6px;z-index:7;pointer-events:auto}
+#chatInput{flex:1;padding:8px 12px;border-radius:18px;border:2px solid #000;font-size:13px;display:none}
+#sendBtn{padding:8px 14px;border-radius:18px;border:2px solid #000;background:#00c853;color:#fff;font-weight:900;display:none}
 </style>
 </head>
 <body>
 <canvas id="game"></canvas>
-<div id="login">
-<h1>SKY ARENA</h1>
-<p style="color:white;font-weight:bold;margin-bottom:20px">FREE WORLD MULTIPLAYER</p>
-<input id="nameInput" placeholder="Your Name" maxlength="12">
-<button id="playBtn">PLAY FREE</button>
-<div id="status">Connecting...</div>
-</div>
-<div id="ui">
-<div id="top"><div id="logo">🌍 FREE WORLD</div><div id="online">● 1 online</div></div>
-<div id="joystick"><div id="stick"></div></div>
-<div id="actions"><button class="btn" id="flyBtn">🕊️</button><button class="btn" id="chatBtn">💬</button></div>
+<div id="topbar"><div id="logo">⚔️ MINI MILITIA - FREE WORLD</div><div id="online">● 1 ONLINE</div></div>
+<div id="healthBar"><div id="healthFill"></div></div>
+<div id="jetBar"><div id="jetFill"></div></div>
 <div id="chatBox"></div>
-<div id="chatInputRow"><input id="chatInput" placeholder="Say something..."><button id="sendBtn">Send</button></div>
+<div id="chatInputRow"><input id="chatInput" placeholder="Say..."><button id="sendBtn">SEND</button></div>
+<div id="controls">
+<div id="joystick"><div id="stick"></div></div>
+<div id="rightControls">
+<div class="row"><button class="btn" id="jetBtn">🚀</button><button class="btn" id="shootBtn">🔫</button></div>
+<div class="row"><button class="btn" id="chatBtn">💬</button><button class="btn" id="reloadBtn">🔄</button></div>
+</div>
+</div>
+<div id="login">
+<h1>MINI<br>MILITIA</h1>
+<p>FREE WORLD ONLINE</p>
+<input id="nameInput" placeholder="SOLDIER NAME" maxlength="12">
+<button id="playBtn">▶ PLAY</button>
+<div id="status">Connecting to server...</div>
 </div>
 <script>
 const SERVER_URL="wss://skyarena-free.onrender.com";
-const canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
-let W,H,DPR;function resize(){DPR=window.devicePixelRatio||1;W=innerWidth;H=innerHeight;canvas.width=W*DPR;canvas.height=H*DPR;canvas.style.width=W+'px';canvas.style.height=H+'px';ctx.setTransform(DPR,0,0,DPR,0,0);}addEventListener('resize',resize);resize();
-let myId=null,players={},me={x:0,y:0,vx:0,vy:0,flying:false},keys={},joy={active:false,dx:0,dy:0},ws=null,connected=false;
-let objs=[];for(let i=0;i<150;i++)objs.push({x:(Math.random()-0.5)*4000,y:(Math.random()-0.5)*4000,t:Math.random()>0.5?'tree':'house'});
-function connect(){document.getElementById('status').textContent="Connecting...";ws=new WebSocket(SERVER_URL);ws.onopen=()=>{connected=true;document.getElementById('status').textContent="Connected! Tap PLAY";};ws.onmessage=(e)=>{try{const d=JSON.parse(e.data);if(d.type==='welcome')myId=d.id;if(d.type==='update'||d.type==='players'){let np={};(d.players||[]).forEach(p=>np[p.id]=p);players=np;document.getElementById('online').textContent="● "+(d.players||[]).length+" online";}if(d.type==='chat')addChat(d.name+": "+d.msg);}catch{}};ws.onclose=()=>{connected=false;document.getElementById('status').textContent="Reconnecting...";setTimeout(connect,2000);};}connect();
-function addChat(t){const b=document.getElementById('chatBox');b.style.display='block';const d=document.createElement('div');d.style.color='white';d.style.fontSize='13px';d.textContent=t;b.appendChild(d);b.scrollTop=b.scrollHeight;setTimeout(()=>{b.innerHTML='';b.style.display='none';},6000);}
-document.getElementById('playBtn').onclick=()=>{const n=document.getElementById('nameInput').value.trim()||"Player"+Math.floor(Math.random()*999);if(!connected){alert("Server waking up, wait 20 sec then try again");return;}me.x=(Math.random()-0.5)*500;me.y=(Math.random()-0.5)*500;ws.send(JSON.stringify({type:'join_free',name:n,x:me.x,y:me.y}));document.getElementById('login').style.display='none';loop();setInterval(()=>{if(ws&&ws.readyState===1)ws.send(JSON.stringify({type:'move',x:me.x,y:me.y,flying:me.flying}));},100);};
-function handle(){let mx=0,my=0;if(keys['w']||keys['ArrowUp'])my=-1;if(keys['s']||keys['ArrowDown'])my=1;if(keys['a']||keys['ArrowLeft'])mx=-1;if(keys['d']||keys['ArrowRight'])mx=1;if(joy.active){mx+=joy.dx;my+=joy.dy;}let len=Math.hypot(mx,my);if(len>1){mx/=len;my/=len;}let sp=me.flying?7:4;me.vx=mx*sp;me.vy=my*sp;me.x+=me.vx;me.y+=me.vy;}
-function draw(){ctx.clearRect(0,0,W,H);const camX=me.x-W/2,camY=me.y-H/2;ctx.fillStyle=me.flying?'#87CEEB':'#8BC34A';ctx.fillRect(0,0,W,H);ctx.strokeStyle='rgba(0,0,0,0.08)';const g=100;let sx=-(camX%g),sy=-(camY%g);for(let x=sx;x<W;x+=g){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}for(let y=sy;y<H;y+=g){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}objs.forEach(o=>{let px=o.x-camX,py=o.y-camY;if(px<-100||px>W+100||py<-100||py>H+100)return;if(o.t==='tree'){ctx.fillStyle='#5D4037';ctx.fillRect(px-6,py-10,12,30);ctx.fillStyle='#4CAF50';ctx.beginPath();ctx.arc(px,py-20,22,0,Math.PI*2);ctx.fill();}else{ctx.fillStyle='#795548';ctx.fillRect(px-25,py-20,50,35);ctx.fillStyle='#FF5722';ctx.beginPath();ctx.moveTo(px-30,py-20);ctx.lineTo(px,py-45);ctx.lineTo(px+30,py-20);ctx.fill();}});Object.values(players).forEach(p=>{let px=p.x-camX,py=p.y-camY;if(px<-50||px>W+50||py<-50||py>H+50)return;ctx.save();if(p.flying)ctx.translate(px,py-10);else ctx.translate(px,py);let isMe=p.id===myId;ctx.fillStyle=isMe?'#FFEB3B':'#2196F3';ctx.beginPath();ctx.arc(0,0,18,0,Math.PI*2);ctx.fill();ctx.strokeStyle='black';ctx.lineWidth=3;ctx.stroke();ctx.fillStyle='black';ctx.beginPath();ctx.arc(-5,-4,3,0,Math.PI*2);ctx.arc(5,-4,3,0,Math.PI*2);ctx.fill();ctx.font='bold 12px Arial';ctx.textAlign='center';ctx.fillText(p.name||'Player',0,-32);if(p.flying){ctx.font='10px Arial';ctx.fillText('FLYING',0,-45);}ctx.restore();});}
-function loop(){handle();draw();requestAnimationFrame(loop);}
-addEventListener('keydown',e=>keys[e.key]=true);addEventListener('keyup',e=>keys[e.key]=false);
-const joyEl=document.getElementById('joystick'),stick=document.getElementById('stick');function jPos(e){const r=joyEl.getBoundingClientRect();const t=e.touches?e.touches[0]:e;let x=t.clientX-(r.left+r.width/2),y=t.clientY-(r.top+r.height/2);let d=Math.hypot(x,y),m=45;if(d>m){x=x/d*m;y=y/d*m;}stick.style.transform=`translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;joy.dx=x/m;joy.dy=y/m;}
-joyEl.addEventListener('touchstart',e=>{joy.active=true;jPos(e);e.preventDefault();},{passive:false});joyEl.addEventListener('touchmove',e=>{jPos(e);e.preventDefault();},{passive:false});joyEl.addEventListener('touchend',()=>{joy.active=false;joy.dx=0;joy.dy=0;stick.style.transform='translate(-50%,-50%)';});
-document.getElementById('flyBtn').onclick=()=>{me.flying=!me.flying;document.getElementById('flyBtn').style.background=me.flying?'#4CAF50':'#fff';};document.getElementById('sendBtn').onclick=sendChat;document.getElementById('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});function sendChat(){const i=document.getElementById('chatInput');const m=i.value.trim();if(!m)return;if(ws)ws.send(JSON.stringify({type:'chat',msg:m}));addChat("You: "+m);i.value='';}
-document.getElementById('nameInput').value="Player"+Math.floor(Math.random()*900);
+const canvas=document.getElementById('game'), ctx=canvas.getContext('2d');
+let W,H; function resize(){W=innerWidth; H=innerHeight; canvas.width=W; canvas.height=H;} addEventListener('resize',resize); resize();
+let myId=null, players={}, me={x:0,y:0,vx:0,vy:0,jet:false,health:100,jetFuel:100,angle:0}, keys={}, joy={active:false,dx:0,dy:0}, ws, connected=false, bullets=[];
+let mapObjs=[]; for(let i=0;i<200;i++){let tx=(Math.random()-0.5)*5000, ty=(Math.random()-0.5)*5000; mapObjs.push({x:tx,y:ty,w:40+Math.random()*80,h:18+Math.random()*20,type:Math.random()>0.5?'block':'platform'});}
+function connect(){ ws=new WebSocket(SERVER_URL); ws.onopen=()=>{connected=true; document.getElementById('status').textContent="SERVER CONNECTED! TAP PLAY";}; ws.onmessage=e=>{try{let d=JSON.parse(e.data); if(d.type==='welcome') myId=d.id; if(d.type==='update'||d.type==='players'){ let np={}; (d.players||[]).forEach(p=>np[p.id]=p); players=np; document.getElementById('online').textContent="● "+(d.players||[]).length+" ONLINE"; } if(d.type==='chat') addChat(d.name+": "+d.msg);}catch{}}; ws.onclose=()=>{connected=false; document.getElementById('status').textContent="Reconnecting..."; setTimeout(connect,2000);}; } connect();
+function addChat(t){ let b=document.getElementById('chatBox'); let d=document.createElement('div'); d.className='chatMsg'; d.textContent=t; b.appendChild(d); setTimeout(()=>d.remove(),5000); }
+document.getElementById('playBtn').onclick=()=>{ let n=document.getElementById('nameInput').value.trim()||"Soldier"+Math.floor(Math.random()*999); if(!connected){alert("Server waking up - wait 20 sec");return;} me.x=(Math.random()-0.5)*400; me.y=(Math.random()-0.5)*400; ws.send(JSON.stringify({type:'join_free',name:n,x:me.x,y:me.y})); document.getElementById('login').style.display='none'; requestAnimationFrame(loop); setInterval(()=>{ if(ws&&ws.readyState===1) ws.send(JSON.stringify({type:'move',x:me.x,y:me.y,flying:me.jet,health:me.health})); },80); };
+function handleInput(){ let mx=0,my=0; if(keys['w']||keys['ArrowUp']||keys[' ']) my=-1; if(keys['s']||keys['ArrowDown']) my=1; if(keys['a']||keys['ArrowLeft']) mx=-1; if(keys['d']||keys['ArrowRight']) mx=1; if(joy.active){ mx+=joy.dx; my+=joy.dy; } let len=Math.hypot(mx,my); if(len>1){mx/=len; my/=len;} if(len>0.1){ me.angle=Math.atan2(my,mx); }
+ let speed=me.jet?6.5:3.8; me.vx=mx*speed; me.vy=my*speed; if(me.jet){ if(me.jetFuel>0){me.jetFuel-=0.7; me.vy-=1.2;} else me.jet=false; } else { if(me.jetFuel<100) me.jetFuel+=0.25; me.vy+=0.28; } me.x+=me.vx; me.y+=me.vy; me.y=Math.min(me.y, 1200);
+ document.getElementById('jetFill').style.width=me.jetFuel+"%"; document.getElementById('healthFill').style.width=me.health+"%";
+}
+function drawMap(camX,camY){ ctx.fillStyle='#7ec850'; ctx.fillRect(0,0,W,H); ctx.fillStyle='rgba(0,0,0,0.06)'; let gs=80; let sx=-(camX%gs), sy=-(camY%gs); for(let x=sx;x<W;x+=gs){ctx.fillRect(x,0,1,H);} for(let y=sy;y<H;y+=gs){ctx.fillRect(0,y,W,1);} mapObjs.forEach(o=>{ let px=o.x-camX, py=o.y-camY; if(px<-100||px>W+100||py<-100||py>H+100) return; if(o.type==='block'){ ctx.fillStyle='#6d4c41'; ctx.fillRect(px-o.w/2, py-o.h/2, o.w, o.h); ctx.fillStyle='#8d6e63'; ctx.fillRect(px-o.w/2, py-o.h/2, o.w, 6); } else { ctx.fillStyle='#795548'; ctx.fillRect(px-o.w/2, py-o.h/2, o.w, o.h); ctx.fillStyle='#a1887f'; ctx.fillRect(px-o.w/2, py-o.h/2, o.w, 5); } }); ctx.fillStyle='#4a3a2a'; ctx.fillRect(0, 1200-camY+ H/2, W, 800); }
+function drawSoldier(p, camX,camY, isMe){ let px=p.x-camX, py=p.y-camY; if(px<-80||px>W+80||py<-80||py>H+80) return; ctx.save(); ctx.translate(px,py);
+ let ang=p.id===myId?me.angle:0; let facing=Math.cos(ang)>=0?1:-1;
+ ctx.scale(facing,1);
+ if(p.flying||p.jet){ let f=Math.random()*8+6; ctx.fillStyle='#ff9800'; ctx.beginPath(); ctx.moveTo(-12,8); ctx.lineTo(-18-f,12); ctx.lineTo(-12,14); ctx.fill(); ctx.fillStyle='#ffeb3b'; ctx.beginPath(); ctx.moveTo(-12,9); ctx.lineTo(-16-f/2,12); ctx.lineTo(-12,13); ctx.fill(); }
+ ctx.fillStyle=isMe?'#ffeb3b':'#2196f3'; ctx.fillRect(-14, -12, 28, 18); ctx.fillStyle='#333'; ctx.fillRect(-4, -2, 22, 6);
+ ctx.fillStyle='#ffcc99'; ctx.beginPath(); ctx.arc(10, -8, 9,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#000'; ctx.fillRect(10,-1,16,4);
+ ctx.fillStyle='#222'; ctx.fillRect(-12, 6, 8, 10); ctx.fillRect(6, 6, 8, 10);
+ ctx.fillStyle='#fff'; ctx.font='bold 11px Arial'; ctx.textAlign='center'; ctx.save(); ctx.scale(facing,1); ctx.fillText((p.name||'Player'), 0*facing, -28); ctx.restore();
+ ctx.restore();
+}
+function draw(){ let camX=me.x-W/2, camY=me.y-H/2; drawMap(camX,camY); Object.values(players).forEach(p=> drawSoldier(p,camX,camY,p.id===myId)); bullets.forEach(b=>{ let px=b.x-camX, py=b.y-camY; ctx.fillStyle='#ffeb3b'; ctx.beginPath(); ctx.arc(px,py,3,0,Math.PI*2); ctx.fill(); }); }
+function loop(){ handleInput(); draw(); bullets.forEach(b=>{b.x+=b.vx; b.y+=b.vy;}); bullets=bullets.filter(b=>Math.hypot(b.x-me.x,b.y-me.y)<800); requestAnimationFrame(loop); }
+addEventListener('keydown',e=>keys[e.key]=true); addEventListener('keyup',e=>keys[e.key]=false);
+const joyEl=document.getElementById('joystick'), stick=document.getElementById('stick'); function jPos(e){ let r=joyEl.getBoundingClientRect(); let t=e.touches?e.touches[0]:e; let x=t.clientX-(r.left+r.width/2), y=t.clientY-(r.top+r.height/2); let d=Math.hypot(x,y), m=45; if(d>m){x=x/d*m; y=y/d*m;} stick.style.transform=`translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`; joy.dx=x/m; joy.dy=y/m; }
+joyEl.addEventListener('touchstart',e=>{joy.active=true; jPos(e); e.preventDefault();},{passive:false}); joyEl.addEventListener('touchmove',e=>{jPos(e); e.preventDefault();},{passive:false}); joyEl.addEventListener('touchend',()=>{joy.active=false; joy.dx=0; joy.dy=0; stick.style.transform='translate(-50%,-50%)';});
+document.getElementById('jetBtn').addEventListener('touchstart',e=>{me.jet=true; e.preventDefault();}); document.getElementById('jetBtn').addEventListener('touchend',()=>me.jet=false); document.getElementById('jetBtn').addEventListener('mousedown',()=>me.jet=true); addEventListener('mouseup',()=>me.jet=false);
+function shoot(){ let bx=me.x+Math.cos(me.angle)*20, by=me.y+Math.sin(me.angle)*2; bullets.push({x:bx,y:by,vx:Math.cos(me.angle)*12,vy:Math.sin(me.angle)*12}); if(ws) ws.send(JSON.stringify({type:'shoot',x:bx,y:by})); }
+document.getElementById('shootBtn').addEventListener('touchstart',e=>{shoot(); e.preventDefault();}); document.getElementById('shootBtn').addEventListener('click',shoot);
+document.getElementById('chatBtn').onclick=()=>{ let i=document.getElementById('chatInput'), s=document.getElementById('sendBtn'); let show=i.style.display!=='block'; i.style.display=show?'block':'none'; s.style.display=show?'block':'none'; if(show) i.focus(); };
+document.getElementById('sendBtn').onclick=()=>{ let i=document.getElementById('chatInput'); let m=i.value.trim(); if(!m) return; if(ws) ws.send(JSON.stringify({type:'chat',msg:m})); addChat("You: "+m); i.value=''; i.style.display='none'; document.getElementById('sendBtn').style.display='none'; };
+document.getElementById('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter') document.getElementById('sendBtn').click();});
+document.getElementById('nameInput').value="Soldier"+Math.floor(Math.random()*900);
 </script>
 </body>
 </html>
